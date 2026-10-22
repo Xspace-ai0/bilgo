@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bilgo | Arkadaşlarınla canlı bilgi yarışması</title>
+<meta name="description" content="Bilgo, arkadaşlarınla aynı anda aynı soruları yanıtladığın canlı bir bilgi yarışması. 10 kişiye kadar oda, Hızlı Eşleş ve tek başına mod. Android için ücretsiz.">
+<meta name="theme-color" content="#101216">
+<link rel="canonical" href="https://xspace-ai0.github.io/bilgo/">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Bilgo: Arkadaşlarınla canlı bilgi yarışması">
+<meta property="og:description" content="Aynı 20 soru, aynı anda. Bilen kazanır, hızlı bilen daha çok kazanır.">
+<meta property="og:url" content="https://xspace-ai0.github.io/bilgo/">
+<meta property="og:image" content="https://xspace-ai0.github.io/bilgo/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MobileApplication","name":"Bilgo","operatingSystem":"Android","applicationCategory":"GameApplication","inLanguage":"tr","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"downloadUrl":"https://play.google.com/store/apps/details?id=com.azat.bilgo","image":"https://xspace-ai0.github.io/bilgo/assets/icon-512.png"}
+</script>
+<style>
+@font-face{font-family:"Bricolage";font-style:normal;font-display:swap;font-weight:200 800;font-stretch:75% 100%;src:url(assets/fonts/bricolage-latin.woff2) format("woff2-variations"),url(assets/fonts/bricolage-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Bricolage";font-style:normal;font-display:swap;font-weight:200 800;font-stretch:75% 100%;src:url(assets/fonts/bricolage-latin-ext.woff2) format("woff2-variations"),url(assets/fonts/bricolage-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
+:root{
+  --gece:#101216;      /* uygulamanin zemini */
+  --kart:#1A1D24;
+  --cizgi:#2A2E35;
+  --sari:#FFD60A;      /* Bilgo sarisi: B harfi, sure halkasi */
+  --mor:#7B2FF7;       /* soru isareti balonu */
+  --lavanta:#CDB4FF;
+  --krem:#FFF8E1;      /* soru ve secenek zemini */
+  --dogru:#2ECC71;
+  --yanlis:#FF5D73;
+  --yazi:#F3F1F8;
+  --soluk:#A9A4B8;
+  --font:"Bricolage",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--gece);color:var(--yazi);font-family:var(--font);font-size:1.0625rem;line-height:1.55;font-weight:400;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--sari);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--sari);outline-offset:3px;border-radius:6px}
+.kap{width:100%;max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-weight:800;line-height:1.05;margin:0;letter-spacing:-.01em}
+h2{font-size:clamp(1.9rem,5vw,2.75rem);font-stretch:85%;color:var(--yazi);max-width:24ch}
+h3{font-size:1.25rem;line-height:1.2}
+p{margin:0}
+.lede{color:var(--soluk);max-width:56ch}
+
+/* ust serit */
+.ust{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.marka{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--yazi);font-weight:800;font-size:1.35rem}
+.marka img{width:40px;height:40px;border-radius:11px}
+.ust .indir{padding:10px 16px;font-size:.95rem}
+
+/* indirme dugmesi */
+.indir{display:inline-flex;align-items:center;gap:10px;background:var(--sari);color:#14110a;text-decoration:none;font-weight:800;font-size:1.05rem;padding:14px 22px;border-radius:14px;transition:transform .15s ease}
+.indir:hover{transform:translateY(-1px)}
+.indir:active{transform:translateY(1px)}
+.indir svg{width:18px;height:18px;flex:none}
+
+/* HERO */
+.hero{display:grid;gap:36px;padding:28px 0 72px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,9.5vw,5.1rem);font-stretch:78%;line-height:.95;color:var(--yazi);max-width:12ch}
+.hero h1 .ikinci{display:block;color:var(--sari)}
+.hero .lede{margin-top:20px;font-size:1.15rem}
+.hero .lede b{color:var(--yazi);font-weight:700}
+.cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;margin-top:28px}
+.cta small{color:var(--soluk);font-size:.95rem}
+@media (min-width:900px){.hero{grid-template-columns:1.05fr .95fr;gap:56px;padding:48px 0 96px}}
+
+/* deneme sorusu: uygulamadaki oyun ekraninin kopyasi */
+.oyun{background:var(--kart);border:1px solid var(--cizgi);border-radius:28px;padding:20px 18px 18px;position:relative;box-shadow:0 30px 80px -30px rgba(123,47,247,.55)}
+.oyun-ust{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kategori{display:inline-flex;align-items:center;gap:6px;background:rgba(255,214,10,.12);border:1px solid rgba(255,214,10,.45);color:var(--sari);border-radius:20px;padding:5px 12px;font-weight:700;font-size:.9rem}
+.sayac{font-size:.9rem;color:var(--soluk);font-variant-numeric:tabular-nums}
+.sure{width:54px;height:54px;border-radius:50%;border:3px solid var(--sari);display:grid;place-items:center;font-weight:800;font-size:1.5rem;font-variant-numeric:tabular-nums;flex:none}
+.sure.az{border-color:var(--yanlis);color:var(--yanlis)}
+.cubuk{height:6px;background:var(--cizgi);border-radius:3px;margin:16px 0 14px;overflow:hidden}
+.cubuk i{display:block;height:100%;width:100%;background:var(--sari);transform-origin:left;transform:scaleX(1)}
+.soru{background:var(--krem);color:#101216;border-radius:16px;padding:20px 18px;font-size:1.2rem;font-weight:600;line-height:1.35;text-align:center;min-height:116px;display:grid;place-items:center}
+.secenekler{display:grid;gap:10px;margin-top:12px;list-style:none;padding:0}
+.secenek{width:100%;border:2px solid transparent;background:var(--krem);color:#101216;font:inherit;font-weight:500;font-size:1.05rem;padding:13px 14px;border-radius:14px;cursor:pointer;text-align:center}
+.secenek:hover:not(:disabled){background:#ffe9a8}
+.secenek:disabled{cursor:default}
+.secenek.dogru{background:var(--dogru);color:#06210f;font-weight:700}
+.secenek.yanlis{background:var(--yanlis);color:#2a0710}
+.secenek.soluk{background:#2A2E35;color:#8a8d96}
+.sonuc{min-height:52px;margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sonuc p{font-size:.98rem;color:var(--soluk)}
+.sonuc p strong{color:var(--yazi);font-size:1.15rem}
+.sonuc p strong.arti{color:var(--dogru)}
+.sonraki{flex:none;background:transparent;color:var(--sari);border:2px solid var(--sari);border-radius:12px;font:inherit;font-weight:700;padding:9px 14px;cursor:pointer}
+.sonraki[hidden]{display:none}
+.oyun-alt{margin-top:12px;font-size:.88rem;color:var(--soluk);text-align:center}
+
+/* bolumler */
+.bolum{padding:72px 0;border-top:1px solid var(--cizgi)}
+.bolum .lede{margin-top:14px}
+
+/* nasil oynanir: gercek bir sira oldugu icin numarali */
+.adimlar{list-style:none;padding:0;margin:40px 0 0;display:grid;gap:28px;counter-reset:adim}
+.adimlar li{counter-increment:adim;display:grid;grid-template-columns:52px 1fr;gap:4px 16px;align-items:start}
+.adimlar li::before{content:counter(adim);grid-row:span 2;width:52px;height:52px;border-radius:50%;background:var(--mor);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.4rem}
+.adimlar p{color:var(--soluk);max-width:42ch}
+@media (min-width:900px){.adimlar{grid-template-columns:repeat(4,1fr)}.adimlar li{grid-template-columns:1fr}.adimlar li::before{grid-row:auto;margin-bottom:10px}}
+
+/* oyun sekilleri */
+.sekiller{margin-top:40px;display:grid;gap:16px}
+.sekil{border-radius:22px;padding:24px;border:1px solid var(--cizgi)}
+.sekil .emoji{font-size:2rem;line-height:1}
+.sekil h3{margin-top:14px}
+.sekil p{margin-top:8px;color:var(--soluk)}
+.sekil.ana{background:var(--mor);border-color:var(--mor)}
+.sekil.ana p{color:#efe6ff}
+@media (min-width:900px){.sekiller{grid-template-columns:1.3fr 1fr 1fr}}
+
+/* puanlama */
+.puan-izgara{display:grid;gap:40px;margin-top:40px}
+@media (min-width:900px){.puan-izgara{grid-template-columns:1fr 1fr;gap:56px}}
+.formul{font-size:clamp(2.2rem,8vw,3.6rem);font-weight:800;font-stretch:80%;line-height:1;color:var(--sari)}
+.formul span{color:var(--yazi)}
+.formul-not{margin-top:14px;color:var(--soluk);max-width:44ch}
+.ornekler{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:8px;font-variant-numeric:tabular-nums}
+.ornekler li{display:grid;grid-template-columns:9.5rem 1fr 3rem;align-items:center;gap:12px;font-size:.95rem;color:var(--soluk)}
+.ornekler .bar{height:12px;border-radius:6px;background:var(--cizgi);overflow:hidden;display:flex}
+.ornekler .bar b{display:block;height:100%;background:var(--lavanta)}
+.ornekler .bar b+b{background:var(--sari)}
+.ornekler strong{color:var(--yazi);text-align:right}
+.serit{display:grid;grid-template-columns:repeat(20,1fr);gap:4px;margin-top:20px}
+.serit i{height:44px;border-radius:6px}
+.z1{background:#E6DAFF}.z2{background:var(--lavanta)}.z3{background:var(--mor)}.z4{background:#FF9F43}.z5{background:var(--yanlis)}
+.serit-acik{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:.92rem;color:var(--soluk);list-style:none;padding:0}
+.serit-acik li{display:flex;align-items:center;gap:6px}
+.serit-acik i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.kural{margin-top:28px;padding-top:22px;border-top:1px solid var(--cizgi);color:var(--soluk);max-width:56ch}
+.kural b{color:var(--yazi)}
+
+/* kategoriler */
+.kategoriler{margin:36px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+.kategoriler li{display:flex;align-items:center;gap:8px;background:var(--kart);border:1px solid var(--cizgi);border-radius:999px;padding:10px 16px;font-weight:600}
+
+/* oyunun icinden */
+.ozellikler{margin-top:40px;display:grid;gap:36px}
+@media (min-width:900px){.ozellikler{grid-template-columns:repeat(2,1fr);gap:44px 56px}}
+.ozellik p{margin-top:8px;color:var(--soluk);max-width:48ch}
+.hazir{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.hazir span{background:#22262E;border-radius:999px;padding:7px 12px;font-size:.95rem}
+
+/* SSS */
+.sss{margin-top:32px;max-width:760px}
+.sss details{border-bottom:1px solid var(--cizgi)}
+.sss summary{cursor:pointer;list-style:none;padding:20px 36px 20px 0;font-weight:700;font-size:1.12rem;position:relative}
+.sss summary::-webkit-details-marker{display:none}
+.sss summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);color:var(--sari);font-size:1.6rem;font-weight:600;transition:transform .2s ease}
+.sss details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.sss details p{padding:0 0 20px;color:var(--soluk);max-width:62ch}
+
+/* kapanis */
+.son{text-align:center;padding:88px 0}
+.son img{width:96px;height:96px;border-radius:24px;margin:0 auto 24px}
+.son h2{margin:0 auto;max-width:16ch}
+.son .lede{margin:16px auto 0}
+.son .cta{justify-content:center}
+footer{border-top:1px solid var(--cizgi);padding:28px 0 40px;color:var(--soluk);font-size:.95rem}
+footer .kap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:center}
+footer nav{display:flex;flex-wrap:wrap;gap:12px 22px}
+footer a{color:var(--yazi)}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="kap">
+  <header class="ust">
+    <a class="marka" href="./" aria-label="Bilgo ana sayfa"><img src="assets/icon-64.png" alt="" width="40" height="40">Bilgo</a>
+    <a class="indir" href="https://play.google.com/store/apps/details?id=com.azat.bilgo" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3.2v17.6c0 .7.8 1.2 1.4.8l14-8.8c.6-.4.6-1.2 0-1.6l-14-8.8C5.8 2 5 2.5 5 3.2z"/></svg>
+      İndir
+    </a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Bilen kazanır. <span class="ikinci">Hızlı bilen daha çok kazanır.</span></h1>
+        <p class="lede">Bilgo canlı bir bilgi yarışması. Arkadaşlarınla bir odada buluşur, aynı 20 soruyu aynı anda yanıtlarsınız. <b>Her doğru cevap 20 puan, kalan her saniye 1 puan daha.</b></p>
+        <div class="cta">
+          <a class="indir" href="https://play.google.com/store/apps/details?id=com.azat.bilgo" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3.2v17.6c0 .7.8 1.2 1.4.8l14-8.8c.6-.4.6-1.2 0-1.6l-14-8.8C5.8 2 5 2.5 5 3.2z"/></svg>
+            Google Play'den indir
+          </a>
+          <small>Android için ücretsiz, reklamsız.</small>
+        </div>
+      </div>
+
+      <div class="oyun" id="oyun" aria-label="Deneme sorusu">
+        <div class="oyun-ust">
+          <span class="kategori" id="kategori">🌍 Coğrafya</span>
+          <span class="sayac" id="sayac">Soru 1 / 5</span>
+          <span class="sure" id="sure" aria-hidden="true">20</span>
+        </div>
+        <div class="cubuk" aria-hidden="true"><i id="cubuk"></i></div>
+        <p class="soru" id="soru">Dünyanın yüzölçümü bakımından en büyük adası hangisidir?</p>
+        <ul class="secenekler" id="secenekler"></ul>
+        <div class="sonuc">
+          <p id="sonuc" aria-live="polite">Süre başladı. Bir seçeneğe dokun.</p>
+          <button class="sonraki" id="sonraki" type="button" hidden>Sıradaki soru</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<section class="bolum" id="nasil">
+  <div class="kap">
+    <h2>Bir oyun nasıl oynanır?</h2>
+    <ol class="adimlar">
+      <li><h3>Oda kur</h3><p>Ana menüden yeni oda aç. Bilgo sana kısa bir oda kodu verir.</p></li>
+      <li><h3>Kodu paylaş</h3><p>Kodu arkadaşlarına gönder. Bir odaya en fazla 10 kişi katılabilir.</p></li>
+      <li><h3>20 soruyu yanıtla</h3><p>Herkes aynı soruyu aynı anda görür. Her soru için 20 saniyen var.</p></li>
+      <li><h3>Sonucu gör</h3><p>Sıralama açıklanır, kazandığın puan profiline eklenir.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="bolum" id="modlar">
+  <div class="kap">
+    <h2>Arkadaşın yoksa da oyun var</h2>
+    <div class="sekiller">
+      <article class="sekil ana">
+        <div class="emoji" aria-hidden="true">👥</div>
+        <h3>Arkadaşlarınla</h3>
+        <p>Oda kur, kodu paylaş, 10 kişiye kadar birlikte yarışın. Oyun boyunca oda sohbetinden yazışabilirsiniz.</p>
+      </article>
+      <article class="sekil">
+        <div class="emoji" aria-hidden="true">⚡</div>
+        <h3>Hızlı Eşleş</h3>
+        <p>Tek dokunuşla o an rakip arayan biriyle 1'e 1 eşleş. 30 saniyede rakip çıkmazsa tek başına ya da arkadaşlarınla devam edebilirsin.</p>
+      </article>
+      <article class="sekil">
+        <div class="emoji" aria-hidden="true">🧍</div>
+        <h3>Tek başına</h3>
+        <p>Kendine karşı oyna. 800 puan üzerinden 560 ve üzerini alırsan galibiyet sayılır.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="bolum" id="puan">
+  <div class="kap">
+    <h2>Puanlar nereden geliyor?</h2>
+    <div class="puan-izgara">
+      <div>
+        <p class="formul" aria-label="Puan eşittir 20 artı kalan saniye">20 <span>+</span> kalan saniye</p>
+        <p class="formul-not">Doğru cevap 20 puan getirir, hız da bir 20 puan daha. Yanlış ya da boş cevap 0. Bir soruda en fazla 40, bir oyunda en fazla 800 puan alınır.</p>
+        <ul class="ornekler">
+          <li><span>Hemen bildi</span><span class="bar" aria-hidden="true"><b style="width:50%"></b><b style="width:50%"></b></span><strong>40</strong></li>
+          <li><span>8 saniyede bildi</span><span class="bar" aria-hidden="true"><b style="width:50%"></b><b style="width:30%"></b></span><strong>32</strong></li>
+          <li><span>Son saniyede bildi</span><span class="bar" aria-hidden="true"><b style="width:50%"></b><b style="width:2.5%"></b></span><strong>21</strong></li>
+          <li><span>Yanlış ya da boş</span><span class="bar" aria-hidden="true"></span><strong>0</strong></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Her oyun 20 soru, kolaydan zora</h3>
+        <div class="serit" role="img" aria-label="20 sorunun zorluk dağılımı: 3 çok kolay, 3 kolay, 8 orta, 4 zor, 2 çok zor">
+          <i class="z1"></i><i class="z1"></i><i class="z1"></i>
+          <i class="z2"></i><i class="z2"></i><i class="z2"></i>
+          <i class="z3"></i><i class="z3"></i><i class="z3"></i><i class="z3"></i><i class="z3"></i><i class="z3"></i><i class="z3"></i><i class="z3"></i>
+          <i class="z4"></i><i class="z4"></i><i class="z4"></i><i class="z4"></i>
+          <i class="z5"></i><i class="z5"></i>
+        </div>
+        <ul class="serit-acik">
+          <li><i class="z1"></i>3 çok kolay</li>
+          <li><i class="z2"></i>3 kolay</li>
+          <li><i class="z3"></i>8 orta</li>
+          <li><i class="z4"></i>4 zor</li>
+          <li><i class="z5"></i>2 çok zor</li>
+        </ul>
+        <p class="kural"><b>Kazanan</b> o oyundaki puanının tamamını profiline ekler, <b>oyunu bitiren herkes</b> yarısını. Oyunun ortasında çıkan puan alamaz ve yenilmiş sayılır.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bolum" id="kategoriler">
+  <div class="kap">
+    <h2>10 kategori, 2.000'den fazla soru</h2>
+    <p class="lede">Sorular Türkçe hazırlanır ve her oyunda farklı kategorilerden karışık gelir.</p>
+    <ul class="kategoriler">
+      <li><span aria-hidden="true">🏛️</span>Tarih</li>
+      <li><span aria-hidden="true">🔬</span>Bilim</li>
+      <li><span aria-hidden="true">💻</span>Teknoloji</li>
+      <li><span aria-hidden="true">🌍</span>Coğrafya</li>
+      <li><span aria-hidden="true">🎵</span>Müzik</li>
+      <li><span aria-hidden="true">🎨</span>Sanat</li>
+      <li><span aria-hidden="true">📚</span>Edebiyat</li>
+      <li><span aria-hidden="true">🎬</span>Sinema</li>
+      <li><span aria-hidden="true">⚽</span>Spor</li>
+      <li><span aria-hidden="true">❓</span>Genel Kültür</li>
+    </ul>
+  </div>
+</section>
+
+<section class="bolum" id="icinden">
+  <div class="kap">
+    <h2>Oyunun içinden</h2>
+    <div class="ozellikler">
+      <div class="ozellik">
+        <h3>💬 Oda sohbeti</h3>
+        <p>Oyun boyunca odadakilerle yazış. Yazmaya vaktin yoksa hazır mesajlara dokun.</p>
+        <div class="hazir" aria-label="Hazır mesaj örnekleri"><span>İyi oyundu 😊</span><span>Rövanş? 🔥</span><span>Kıl payı! 😬</span><span>Tebrikler! 🎉</span></div>
+      </div>
+      <div class="ozellik">
+        <h3>🏆 Lider Tablosu</h3>
+        <p>Tüm zamanların ilk 3'ü burada. İlk 3'te değilsen kaçıncı sırada olduğunu ve ilk 3'e kaç puan kaldığını görürsün.</p>
+      </div>
+      <div class="ozellik">
+        <h3>👤 Profil</h3>
+        <p>Takma adını ve avatarını seç, oynadığın ve kazandığın oyunları takip et. Koyu ya da açık tema, sana hangisi rahatsa.</p>
+      </div>
+      <div class="ozellik">
+        <h3>🛡️ Saygılı oyun</h3>
+        <p>Uygunsuz kelimeler otomatik filtrelenir. Rahatsız eden oyuncuyu engelleyebilir ya da şikayet edebilirsin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bolum" id="sss">
+  <div class="kap">
+    <h2>Sık sorulanlar</h2>
+    <div class="sss">
+      <details><summary>Bilgo ücretli mi?</summary><p>Hayır. Bilgo ücretsiz; uygulama içi satın alma ve reklam yok.</p></details>
+      <details><summary>Üye olmam gerekiyor mu?</summary><p>Hayır, misafir olarak hemen oynayabilirsin. Google hesabınla girersen puanların ve istatistiklerin hesabına bağlanır, telefon değiştirsen de kaybolmaz.</p></details>
+      <details><summary>iPhone'da var mı?</summary><p>Şimdilik yalnızca Android'de, Google Play'de.</p></details>
+      <details><summary>Oyunun ortasında bağlantım koparsa ne olur?</summary><p>Diğer oyuncular seni beklemez, sorular süre dolunca ilerler. Oyuna geri dönersen o anki sorudan devam edersin. 3 soru boyunca görünmeyen oyuncu pasif sayılır ve kazanan hesabına girmez.</p></details>
+      <details><summary>Hesabımı ve verilerimi nasıl silerim?</summary><p><a href="mailto:rosidaoner@gmail.com?subject=hesap%20silme">rosidaoner@gmail.com</a> adresine "hesap silme" konulu bir e-posta gönder. Hesabın ve verilerin 30 gün içinde silinir. Ayrıntılar <a href="https://xspace-ai0.github.io/bilgo-gizlilik/">Gizlilik Politikası</a>'nda.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="son">
+  <div class="kap">
+    <img src="assets/icon-192.png" alt="Bilgo uygulama simgesi" width="96" height="96">
+    <h2>Kim daha çok biliyor? Bir oyunda görün.</h2>
+    <p class="lede">Bilgo'yu indir, bir oda kur ve kodu arkadaşlarına gönder.</p>
+    <div class="cta">
+      <a class="indir" href="https://play.google.com/store/apps/details?id=com.azat.bilgo" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3.2v17.6c0 .7.8 1.2 1.4.8l14-8.8c.6-.4.6-1.2 0-1.6l-14-8.8C5.8 2 5 2.5 5 3.2z"/></svg>
+        Google Play'den indir
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="kap">
+    <span>© 2026 Bilgo</span>
+    <nav aria-label="Alt bağlantılar">
+      <a href="https://xspace-ai0.github.io/bilgo-gizlilik/">Gizlilik Politikası</a>
+      <a href="mailto:rosidaoner@gmail.com?subject=Bilgo%20hakk%C4%B1nda">İletişim</a>
+      <a href="https://play.google.com/store/apps/details?id=com.azat.bilgo" rel="noopener">Google Play</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Uygulamadaki soru havuzundan, metinleri degistirilmeden alinmis 5 ornek.
+  var SORULAR=[
+    {k:"🌍 Coğrafya",s:"Dünyanın yüzölçümü bakımından en büyük adası hangisidir?",o:["Madagaskar","Grönland","Borneo","Baffin Adası"],d:1},
+    {k:"🏛️ Tarih",s:"Antik Roma kenti Pompeii'yi MS 79'da kül altında bırakan yanardağ hangisidir?",o:["Etna","Vezüv","Stromboli","Krakatoa"],d:1},
+    {k:"🔬 Bilim",s:"İnsan vücudundaki en büyük organ aşağıdakilerden hangisidir?",o:["Karaciğer","Beyin","Deri","Akciğer"],d:2},
+    {k:"📚 Edebiyat",s:"Oğuz Türklerinin destansı hikâyelerini anlatan, 12 hikâyeden oluşan ünlü Türk halk eseri hangisidir?",o:["Şehname","Dede Korkut Hikâyeleri","Kutadgu Bilig","Divanü Lügati't-Türk"],d:1},
+    {k:"🎬 Sinema",s:"Yönetmenliğini Peter Jackson'ın yaptığı, J.R.R. Tolkien'in eserlerinden uyarlanan ve Orta Dünya'da geçen film serisi aşağıdakilerden hangisidir?",o:["Narnia Günlükleri","Yüzüklerin Efendisi","Harry Potter","Karayip Korsanları"],d:1}
+  ];
+  var SURE=20, i=0, toplam=0, kalan=SURE, basla=0, harcanan=0, cevaplandi=false, calisiyor=false, gorunur=false, raf=0;
+  var $=function(id){return document.getElementById(id)};
+  var kart=$("oyun"), elKat=$("kategori"), elSay=$("sayac"), elSure=$("sure"), elCubuk=$("cubuk"),
+      elSoru=$("soru"), elSec=$("secenekler"), elSonuc=$("sonuc"), elSonraki=$("sonraki");
+
+  function goster(){
+    var q=SORULAR[i];
+    elKat.textContent=q.k; elSay.textContent="Soru "+(i+1)+" / "+SORULAR.length; elSoru.textContent=q.s;
+    elSec.innerHTML="";
+    q.o.forEach(function(t,j){
+      var li=document.createElement("li"), b=document.createElement("button");
+      b.type="button"; b.className="secenek"; b.textContent=t;
+      b.addEventListener("click",function(){cevapla(j)});
+      li.appendChild(b); elSec.appendChild(li);
+    });
+    cevaplandi=false; harcanan=0; kalan=SURE; ciz();
+    elSonuc.textContent="Süre başladı. Bir seçeneğe dokun.";
+    elSonraki.hidden=true;
+    if(gorunur) baslat();
+  }
+  function baslat(){ if(cevaplandi||calisiyor) return; calisiyor=true; basla=performance.now(); raf=requestAnimationFrame(tik); }
+  function durdur(){ if(!calisiyor) return; harcanan+=(performance.now()-basla)/1000; calisiyor=false; cancelAnimationFrame(raf); }
+  function tik(t){
+    if(!calisiyor) return;
+    kalan=Math.max(0,SURE-harcanan-(t-basla)/1000); ciz();
+    if(kalan<=0){ calisiyor=false; bitir(-1); return; }
+    raf=requestAnimationFrame(tik);
+  }
+  function ciz(){
+    var sn=Math.ceil(kalan);
+    elSure.textContent=sn; elSure.classList.toggle("az",sn<=5&&!cevaplandi);
+    elCubuk.style.transform="scaleX("+(kalan/SURE)+")";
+  }
+  function cevapla(j){ if(cevaplandi) return; durdur(); bitir(j); }
+  function bitir(j){
+    cevaplandi=true; var q=SORULAR[i], sn=Math.ceil(kalan);
+    var btn=elSec.querySelectorAll(".secenek");
+    btn.forEach(function(b,x){ b.disabled=true; if(x===q.d) b.classList.add("dogru"); else if(x===j) b.classList.add("yanlis"); else b.classList.add("soluk"); });
+    elSure.classList.remove("az");
+    if(j===q.d){
+      var p=20+sn; toplam+=p;
+      elSonuc.innerHTML='<strong class="arti">+'+p+' puan</strong><br>20 doğruluk + '+sn+' hız';
+    } else {
+      elSonuc.innerHTML='<strong>'+(j<0?"Süre doldu":"0 puan")+'</strong><br>Doğru cevap: '+q.o[q.d];
+    }
+    if(i<SORULAR.length-1){ elSonraki.textContent="Sıradaki soru"; }
+    else { elSonraki.textContent="Baştan oyna"; setTimeout(function(){ elSonuc.innerHTML='<strong>'+toplam+' puan</strong><br>5 soru bu kadar. Uygulamada 20 soru ve gerçek rakipler var.'; },1600); }
+    elSonraki.hidden=false;
+  }
+  elSonraki.addEventListener("click",function(){
+    if(i<SORULAR.length-1){ i++; } else { i=0; toplam=0; }
+    goster(); var ilk=elSec.querySelector(".secenek"); if(ilk) ilk.focus({preventScroll:true});
+  });
+  // Sure, kart ekranda gorunmeden baslamaz; sekme arka plandayken durur.
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(e){ gorunur=e[0].isIntersecting; if(gorunur) baslat(); else durdur(); },{threshold:.6}).observe(kart);
+  } else { gorunur=true; }
+  document.addEventListener("visibilitychange",function(){ if(document.hidden) durdur(); else if(gorunur) baslat(); });
+  goster();
+})();
+</script>
+</body>
+</html>
