@@ -161,10 +161,10 @@ p{margin:0}
 .sss details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
 .sss details p{padding:0 0 20px;color:var(--soluk);max-width:62ch}
 
-/* tanitim videosu */
-.logo-yazi{font-size:clamp(4.2rem,20vw,8.5rem);font-stretch:78%;font-weight:800;line-height:.9;letter-spacing:-.03em;max-width:none;background:linear-gradient(180deg,#fff 30%,var(--lavanta) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 10px 28px rgba(123,47,247,.55))}
-.logo-yazi .b{background:linear-gradient(180deg,#FFE35A 0%,var(--sari) 55%,#E0A800 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.logo-alt{margin-top:12px;font-size:1.15rem;color:var(--lavanta);font-weight:600;letter-spacing:.01em}
+/* tanitim videosu (sayfanin en ustunde) */
+.tanitim{padding:12px 0 8px}
+.tanitim .video-kutu{margin:0 auto}
+@media (min-width:900px){.tanitim{padding:36px 0 8px}}
 .video-kutu{margin-top:32px;max-width:860px;border-radius:22px;overflow:hidden;border:1px solid var(--cizgi);background:#000;box-shadow:0 30px 80px -30px rgba(123,47,247,.55)}
 .video-kutu video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000}
 
@@ -194,6 +194,15 @@ footer a{color:var(--yazi)}
   </header>
 
   <main>
+    <section class="tanitim" id="video" aria-label="Bilgo tanıtım videosu">
+      <div class="video-kutu">
+        <video controls playsinline preload="none" poster="assets/bilgo-tanitim-kapak.jpg" width="1280" height="720">
+          <source src="assets/bilgo-tanitim.mp4" type="video/mp4">
+          Tarayıcın bu videoyu oynatamıyor.
+        </video>
+      </div>
+    </section>
+
     <section class="hero">
       <div>
         <h1>Bilen kazanır. <span class="ikinci">Hızlı bilen daha çok kazanır.</span></h1>
@@ -336,19 +345,6 @@ footer a{color:var(--yazi)}
         <h3>🛡️ Saygılı oyun</h3>
         <p>Uygunsuz kelimeler otomatik filtrelenir. Rahatsız eden oyuncuyu engelleyebilir ya da şikayet edebilirsin.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="bolum" id="video">
-  <div class="kap">
-    <h2 class="logo-yazi"><span class="b">B</span>ilgo</h2>
-    <p class="lede logo-alt">Çok oyunculu gerçek zamanlı bilgi yarışması</p>
-    <div class="video-kutu">
-      <video controls playsinline preload="none" poster="assets/bilgo-tanitim-kapak.jpg" width="1280" height="720">
-        <source src="assets/bilgo-tanitim.mp4" type="video/mp4">
-        Tarayıcın bu videoyu oynatamıyor.
-      </video>
     </div>
   </div>
 </section>
