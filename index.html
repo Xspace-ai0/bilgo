@@ -108,7 +108,7 @@ p{margin:0}
 .adimlar li{counter-increment:adim;display:grid;grid-template-columns:52px 1fr;gap:4px 16px;align-items:start}
 .adimlar li::before{content:counter(adim);grid-row:span 2;width:52px;height:52px;border-radius:50%;background:var(--mor);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.4rem}
 .adimlar p{color:var(--soluk);max-width:42ch}
-@media (min-width:900px){.adimlar{grid-template-columns:repeat(4,1fr)}.adimlar li{grid-template-columns:1fr}.adimlar li::before{grid-row:auto;margin-bottom:10px}}
+@media (min-width:900px){.adimlar{grid-template-columns:repeat(4,1fr)}.adimlar li{grid-template-columns:1fr;align-content:start}.adimlar li::before{grid-row:auto;margin-bottom:10px}}
 
 /* oyun sekilleri */
 .sekiller{margin-top:40px;display:grid;gap:16px}
@@ -237,6 +237,12 @@ footer a{color:var(--yazi)}
 <section class="bolum" id="nasil">
   <div class="kap">
     <h2>Bir oyun nasıl oynanır?</h2>
+    <div class="video-kutu">
+      <video controls controlslist="nodownload" oncontextmenu="return false" playsinline preload="none" poster="assets/bilgo-nasil-oynanir-kapak.jpg" width="1280" height="720">
+        <source src="assets/bilgo-nasil-oynanir.mp4" type="video/mp4">
+        Tarayıcın bu videoyu oynatamıyor.
+      </video>
+    </div>
     <ol class="adimlar">
       <li><h3>Oda kur</h3><p>Ana menüden yeni oda aç. Bilgo sana kısa bir oda kodu verir.</p></li>
       <li><h3>Kodu paylaş</h3><p>Kodu arkadaşlarına gönder. Bir odaya en fazla 10 kişi katılabilir.</p></li>
