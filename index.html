@@ -463,6 +463,11 @@ footer a{color:var(--yazi)}
   document.addEventListener("visibilitychange",function(){ if(document.hidden) durdur(); else if(gorunur) baslat(); });
   goster();
 })();
+// Ayni anda tek video: biri oynatilinca digerleri duraklatilir (sesler ust uste binmez).
+document.addEventListener("play",function(e){
+  if(!(e.target instanceof HTMLVideoElement)) return;
+  document.querySelectorAll("video").forEach(function(v){ if(v!==e.target && !v.paused) v.pause(); });
+},true);
 </script>
 </body>
 </html>
